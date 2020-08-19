@@ -125,7 +125,10 @@ namespace GR
             }
             Console.WriteLine("Inventory update complete");
         }
-
+        /// <summary>
+        /// Assumption: item.SellIn == 0 -> today, still able to sell at current item.Quality
+        ///             item.SellIn < 0 -> expired
+        /// </summary>
         public void UpdateInventoryNew()
         {
             Console.WriteLine("Updating inventory");
@@ -137,7 +140,8 @@ namespace GR
                     switch (item)
                     {
                         case Item it when it.Name == "Aged Brie":
-                            it.Quality = it.Quality + 1;
+                            //if passes expiration date??
+                            it.Quality += 1;
                             break;
                         case Item it when it.Name.Contains("Backstage passes"):
                             if (it.SellIn < 0)
@@ -158,12 +162,27 @@ namespace GR
                             }
                             break;
                         case Item it when it.Name.Contains("Conjured"):
-                            it.Quality -= 2;
+                            if(it.SellIn < 0)
+                            {
+                                it.Quality -= 4;
+                            }
+                            else
+                            {
+                                it.Quality -= 2;
+                            }
                             break;
                         case Item it when it.Name == "Sulfuras, Hand of Ragnaros":
+                            //quality wont change
                             break;
                         default:
-                            item.Quality -= 1;
+                            if(item.SellIn < 0)
+                            {
+                                item.Quality -= 2;
+                            }
+                            else
+                            {
+                                item.Quality -= 1;
+                            }
                             break;
                     }
                     //update 0 to 50 threshold
@@ -180,8 +199,6 @@ namespace GR
                     }
                     //decrement sellIn
                     item.SellIn -= 1;
-
-
                 }
             }
             catch(Exception e)
@@ -189,7 +206,7 @@ namespace GR
 #if DEBUG
                 Console.WriteLine("There is an error: "+ e.Message);
 #else
-                Console.WriteLine("There is an error");
+                Console.WriteLine("There is an error, please try again later");
 #endif
             }
             Console.WriteLine("Inventory update complete");
