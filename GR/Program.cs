@@ -129,57 +129,68 @@ namespace GR
         public void UpdateInventoryNew()
         {
             Console.WriteLine("Updating inventory");
-            foreach (var item in Items)
-            {
-                //Update Quality by Name
-                switch (item)
+            try {
+                foreach (var item in Items)
                 {
-                    case Item it when it.Name == "Aged Brie":
-                        it.Quality = it.Quality + 1;
-                        break;
-                    case Item it when it.Name.Contains("Backstage passes"):
-                        if (it.SellIn < 0)
-                        {
-                            it.Quality = 0;
-                        }
-                        else if (it.SellIn <= 5)
-                        {
-                            it.Quality += 3;
-                        }
-                        else if (item.SellIn <= 10)
-                        {
-                            it.Quality += 2;
-                        }
-                        else
-                        {
-                            it.Quality += 1;
-                        }
-                        break;
-                    case Item it when it.Name.Contains("Conjured"):
-                        it.Quality -= 2;
-                        break;
-                    case Item it when it.Name == "Sulfuras, Hand of Ragnaros":
-                        break;
-                    default:
-                        item.Quality -= 1;
-                        break;
-                }
-                //update 0 to 50 threshold
-                if(item.Name != "Sulfuras, Hand of Ragnaros")
-                {
-                    if (item.Quality > 50)
+                    Console.WriteLine(" - Item: {0}", item.Name);
+                    //Update Quality by Name
+                    switch (item)
                     {
-                        item.Quality = 50;
+                        case Item it when it.Name == "Aged Brie":
+                            it.Quality = it.Quality + 1;
+                            break;
+                        case Item it when it.Name.Contains("Backstage passes"):
+                            if (it.SellIn < 0)
+                            {
+                                it.Quality = 0;
+                            }
+                            else if (it.SellIn <= 5)
+                            {
+                                it.Quality += 3;
+                            }
+                            else if (item.SellIn <= 10)
+                            {
+                                it.Quality += 2;
+                            }
+                            else
+                            {
+                                it.Quality += 1;
+                            }
+                            break;
+                        case Item it when it.Name.Contains("Conjured"):
+                            it.Quality -= 2;
+                            break;
+                        case Item it when it.Name == "Sulfuras, Hand of Ragnaros":
+                            break;
+                        default:
+                            item.Quality -= 1;
+                            break;
                     }
-                    else if (item.Quality < 0)
+                    //update 0 to 50 threshold
+                    if (item.Name != "Sulfuras, Hand of Ragnaros")
                     {
-                        item.Quality = 0;
+                        if (item.Quality > 50)
+                        {
+                            item.Quality = 50;
+                        }
+                        else if (item.Quality < 0)
+                        {
+                            item.Quality = 0;
+                        }
                     }
-                }
-                //decrement sellIn
-                item.SellIn -= 1;
-                Console.WriteLine(" - Item: {0}", item.Name);
+                    //decrement sellIn
+                    item.SellIn -= 1;
 
+
+                }
+            }
+            catch(Exception e)
+            {
+#if DEBUG
+                Console.WriteLine("There is an error: "+ e.Message);
+#else
+                Console.WriteLine("There is an error");
+#endif
             }
             Console.WriteLine("Inventory update complete");
         }
