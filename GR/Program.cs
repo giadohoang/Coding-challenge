@@ -185,7 +185,7 @@ namespace GR
                             }
                             break;
                     }
-                    //update 0 to 50 threshold
+                    //update 0 to 50 threshold and Sellin count
                     if (item.Name != "Sulfuras, Hand of Ragnaros")
                     {
                         if (item.Quality > 50)
@@ -196,9 +196,10 @@ namespace GR
                         {
                             item.Quality = 0;
                         }
+                        //decrement sellIn
+                        item.SellIn -= 1;
                     }
-                    //decrement sellIn
-                    item.SellIn -= 1;
+                    
                 }
             }
             catch(Exception e)
