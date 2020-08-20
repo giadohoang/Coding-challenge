@@ -58,6 +58,7 @@ namespace GR
                             var qLeft = item.Quality - 2;
                             item.Quality = qLeft > 0 ? qLeft : 0;
                         }
+                        //for all other items, decrement quality
                         else if (item.Name != "Sulfuras, Hand of Ragnaros")
                         {
                             item.Quality = item.Quality - 1;
@@ -96,9 +97,10 @@ namespace GR
                 {
                     item.SellIn = item.SellIn - 1;
                 }
-
+                //if still selable, go next item
                 //if (item.SellIn >= 0) continue;
 
+                //if expired
                 //if (item.Name != "Aged Brie")
                 //{
                 //    if (item.Name.Contains("Backstage passes"))
@@ -115,6 +117,7 @@ namespace GR
                 //        item.Quality = item.Quality - item.Quality;
                 //    }
                 //}
+                //brie keep increasing quality, this it not necessary, quality already incresed at line 73
                 //else
                 //{
                 //    if (item.Quality < 50)
